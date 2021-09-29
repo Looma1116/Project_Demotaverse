@@ -2,39 +2,69 @@ class Scene2 extends Phaser.Scene{
     constructor() {
         super("playGame");
     }
-    
-    preload() {
-        this.load.image("background", "/assets/images/background.png");    
-        this.load.image("character", "/assets/images/character.png");    
-    }
 
     create() {
-        this.background = this.add.image(0, 0, "background");
+        this.background = this.add.tileSprite(0, 0, 1200, 800, "background");
         this.background.setOrigin(0, 0);
-        this.add.text(20, 20, "Playing~", { font: "25px Arial", fill: "yellow" });
-        this.player = this.add.image(config.width / 2, config.height / 2, "character");
-    }
+        this.background.setScrollFactor(0);
+        this.cameras.main.setSize(400, 300);
+        
+        this.men = this.physics.add.group();
 
-    movePlayer(player, direction) {
-        if (direction == "up") {
-            player.y -= 5;
+
+        var maxMan = 4;
+        for (var i = 0; i <= maxMan; i++){
+            var man = this.physics.add.sprite(32, 32, "character");
+            this.men.add(man);
+            man.setRandomPosition(0, 0, game.config.width, game.config.height);   
+            man.setVelocity(50, 50);
+            man.setCollideWorldBounds(true);
+            man.setBounce(1);
         }
-        if (direction == "down") {
-            player.y += 5;
-        }
-        if (direction == "left"){
-            player.x -= 5;
-        }
-        if (direction == "right") {
-            player.x += 5;
-        }
+
+
+
+        this.player = this.physics.add.sprite(config.width / 2, config.height / 2, "character");
+        this.player.play("player_anim");
+        this.player.setInteractive();
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+
+
+
+
+
+
+
+        this.cameras.main.setBounds(0, 0, game.config.width, game.config.height);
+        this.cameras.main.startFollow(this.player);
     }
+            
 
     update() {
-        this.movePlayer(this.player, "up");
-        this.movePlayer(this.player, "left");
-        this.movePlayer(this.player, "down");
-        this.movePlayer(this.player, "right");
+        this.background.tilePositionY = this.cameras.main.scrollY;
+        this.background.tilePositionX = this.cameras.main.scrollX;
+        this.movePlayer();
     }
 
+    movePlayer() {
+        if (this.cursors.left.isDown && this.player.x > 0) {
+            //this.player.setVelocityX(-gameSettings.playerSpeed);
+            this.player.x -= 2;
+        }
+        else if (this.cursors.right.isDown && this.player.x < game.config.width) {
+            this.player.x += 2;
+            this.player.scaleX = -1;
+      
+        }
+        else if (this.cursors.up.isDown && this.player.y > 0) {
+            this.player.y -= 2;
+      
+        }
+        else if (this.cursors.down.isDown && this.player.y < game.config.height) {
+            this.player.y += 2;
+      
+        }
+    }
 }
