@@ -29,10 +29,7 @@ class Scene2 extends Phaser.Scene{
         this.player.setInteractive();
 
         this.cursors = this.input.keyboard.createCursorKeys();
-
-
-
-
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
 
@@ -46,6 +43,10 @@ class Scene2 extends Phaser.Scene{
         this.background.tilePositionY = this.cameras.main.scrollY;
         this.background.tilePositionX = this.cameras.main.scrollX;
         this.movePlayer();
+    }
+
+    emotionSmile() {
+        var smiling = new Smile(this);
     }
 
     movePlayer() {
