@@ -59,6 +59,7 @@ class Scene2 extends Phaser.Scene{
         if (this.cursors.left.isDown && this.player.x > 0) {
             //this.player.setVelocityX(-gameSettings.playerSpeed);
             this.player.x -= 2;
+            this.player.scaleX = 1;
         }
         else if (this.cursors.right.isDown && this.player.x < game.config.width) {
             this.player.x += 2;
