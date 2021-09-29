@@ -7,10 +7,10 @@ class Scene2 extends Phaser.Scene{
         this.background = this.add.tileSprite(0, 0, 1200, 800, "background");
         this.background.setOrigin(0, 0);
         this.background.setScrollFactor(0);
-        this.cameras.main.setSize(400, 300);
+        this.cameras.main.setSize(800, 600);
         
         this.men = this.physics.add.group();
-
+        this.emotions = this.physics.add.group();
 
         var maxMan = 4;
         for (var i = 0; i <= maxMan; i++){
@@ -32,8 +32,6 @@ class Scene2 extends Phaser.Scene{
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-
-
         this.cameras.main.setBounds(0, 0, game.config.width, game.config.height);
         this.cameras.main.startFollow(this.player);
     }
@@ -42,11 +40,19 @@ class Scene2 extends Phaser.Scene{
     update() {
         this.background.tilePositionY = this.cameras.main.scrollY;
         this.background.tilePositionX = this.cameras.main.scrollX;
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+            this.emotionSmile();
+        }
+        for (var i = 0; i < this.emotions.getChildren().length; i++) {
+            var smile = this.emotions.getChildren()[i];
+            smile.update(this);
+        }
         this.movePlayer();
+        
     }
 
     emotionSmile() {
-        var smiling = new Smile(this);
+        var smile = new Smile(this);
     }
 
     movePlayer() {
