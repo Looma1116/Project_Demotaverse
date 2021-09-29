@@ -14,6 +14,6 @@ class Smile extends Phaser.GameObjects.Sprite{
     }
     update(scene) {
         this.x = scene.player.x;
-        this.y = scene.player.y;
+
     }
 }
